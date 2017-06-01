@@ -3,7 +3,7 @@ A fast string concatenator. It is simply a C array of characters, encapsulated i
 Allocation is done at start and when size exceeds allocated bytes. For performance reasons, the number of allocations should be mininized (ideally one time).
 
 
-#Usage
+# Usage
 ```c++
 table_str_t table(3);
 table.add("ab", 2);
@@ -12,7 +12,7 @@ table.add("cdefgh", 6);
 table.dump();
 ```
 
-#Benchmarks
+# Benchmarks
 Substancial improvement over C++ std::string.
 
 | API                   | Seconds           
@@ -22,7 +22,7 @@ Substancial improvement over C++ std::string.
 | std::string (reserve) | 9  |  
 | table_str_t           | 1  |  
 
-#Benchmark
+# Benchmark
 ```c++
 clock_gettime_t timer;
 const size_t nbr = 1000 * 1000 * 10;
