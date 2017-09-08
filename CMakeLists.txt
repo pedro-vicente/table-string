@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 2.8)
+project (table_string)
+set(SOURCES ${SOURCES} table_str.cc)
+set(SOURCES ${SOURCES} table_str.hh)
+set(SOURCES ${SOURCES} test_str.cc)
+add_executable(test_str ${SOURCES})

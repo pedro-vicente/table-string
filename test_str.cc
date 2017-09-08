@@ -44,6 +44,8 @@ int main()
   const char* s = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
   size_t len = strlen(s);
 
+  std::cout << "basic table use:" << std::endl;
+
   {
     table_str_t table(20);
     table.add("ab", 2);
@@ -58,6 +60,9 @@ int main()
 
 #ifdef HAVE_SDS
   {
+
+    std::cout << "SDS benchmark" << std::endl;
+
     timer.start();
     sds sd = sdsempty();
     for (size_t idx = 0; idx < nbr; ++idx)
@@ -74,6 +79,9 @@ int main()
   //string
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
+  std::cout << "std::string benchmark append string of size " <<
+    len << ", " << nbr << " times" << std::endl;
+
   {
     timer.start();
     std::string str;
@@ -88,6 +96,9 @@ int main()
   /////////////////////////////////////////////////////////////////////////////////////////////////////
   //string reserve
   /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  std::cout << "std::string reserve benchmark append string of size " <<
+    len << ", " << nbr << " times" << std::endl;
 
   {
     timer.start();
@@ -105,9 +116,29 @@ int main()
   //table_str_t
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
+  std::cout << "table string benchmark with pre-allocation of " <<
+    nbr *len << " elements" << std::endl;
+
   {
     timer.start();
-    table_str_t table(nbr *len);
+    table_str_t table(nbr * len);
+    for (size_t idx = 0; idx < nbr; ++idx)
+    {
+      table.add(s, len);
+    }
+    timer.now("end table");
+    timer.stop();
+  }
+
+
+  size_t nbr_alloc_factor = 100;
+  std::cout << "table string benchmark with pre-allocation of ONLY " <<
+    nbr * len / nbr_alloc_factor << " elements, allocation is MADE " <<
+    nbr_alloc_factor << " times...patience..."  << std::endl;
+
+  {
+    timer.start();
+    table_str_t table(nbr * len / nbr_alloc_factor);
     for (size_t idx = 0; idx < nbr; ++idx)
     {
       table.add(s, len);
